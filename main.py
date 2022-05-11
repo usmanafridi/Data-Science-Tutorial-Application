@@ -10,6 +10,7 @@ import dash_bootstrap_components as dbc
 
 import pandas as pd
 
+from page import page1, page2, page3
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -31,7 +32,7 @@ app.layout = html.Div([
             ),
         
     ],
-    color="#45d364",
+    color="white",
     dark=True,
 ),
     dcc.Location(id='url', refresh=False),
@@ -77,7 +78,7 @@ def getMainLayout():
                                         className="card__side card__side--front-1"
                                     ),
                                     className="card"
-                                ),href="/suppliers/suppliersPage")
+                                ),href="/page1")
 
                             ],
                             className="col-1-of-3"
@@ -107,7 +108,7 @@ def getMainLayout():
                                         className="card__side card__side--front-2"
                                     ),
                                     className="card"
-                                ),href="/suppliers/suppliersPage")
+                                ),href="/page2")
 
                             ],
                             className="col-1-of-3"
@@ -137,7 +138,7 @@ def getMainLayout():
                                         className="card__side card__side--front-3"
                                     ),
                                     className="card"
-                                ),href="/suppliers/suppliersPage")
+                                ),href="/page3")
 
                             ],
                             className="col-1-of-3"
@@ -274,8 +275,20 @@ def display_page(pathname):
         # else:
         return getMainLayout()
 
+    
+    
+    elif pathname == '/page1':
+        return page1.layout
+    elif pathname == '/page2':
+        return page2.layout
+
+    elif pathname == '/page3':
+        return page3.layout
+
+    
     else:
-        None
+        return 'Usman Afridi'
+    
 
 
 

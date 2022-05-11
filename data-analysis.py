@@ -162,6 +162,15 @@ html.Div([
 
 
 
+  html.Div([ 
+
+    html.H1('Change the column names'), 
+            
+
+  ],className="row-flex display"),
+
+
+
 dcc.Store(id='store-data', data=[], storage_type='memory'), # 'local' or 'session'
 
 dcc.Store(id='store-data-2', data=[], storage_type='memory') # 'local' or 'session'
@@ -174,8 +183,9 @@ dcc.Store(id='store-data-2', data=[], storage_type='memory') # 'local' or 'sessi
 
 ################################################################
 
+## This call back is to store the data in the second store component, after changing the column type.
+
 @app.callback(Output('store-data-2', 'data'),
-            Output('pandas-output-container-1', 'children'),
               Input('store-data', 'data'),
               Input("pandas-dropdown-1", "value"),
               Input("radio-items", "value"))
@@ -185,15 +195,33 @@ def change_data_type(data, value, radio):
     if data is None:
         raise PreventUpdate
 
-    dff= pd.DataFrame(data)
-    print(dff.head())
+    
 
     
     if radio == 'date':
+        dff= pd.DataFrame(data)
         dff[value] =  pd.to_datetime(dff[value], errors='coerce')
+        print('Changes to Datetime')
 
-        return dff.to_dict('records'), 'The column has been converter into datetime'
+        # print(dff.info())
 
+        return dff.to_dict('records')
+
+    
+    if radio == 'int':
+        dff_int= pd.DataFrame(data)
+        dff_int[value] = pd.to_numeric(dff_int[value], errors='coerce').astype('Int64')
+        
+
+        print('Value converted to integer')
+        print(dff_int.info())
+
+        df_new= pd.DataFrame(dff_int)
+        
+        return df_new.to_dict('records')
+
+        
+    
     else:
          None
 
